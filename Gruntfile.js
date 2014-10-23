@@ -36,15 +36,15 @@ module.exports = function(grunt) {
       },
       js: {
         src: [
-          'src/esri-leaflet-geocoder.js'
+          'src/esri-leaflet-related.js'
         ],
-        dest: 'dist/esri-leaflet-geocoder-src.js'
+        dest: 'dist/esri-leaflet-related-src.js'
       },
       css: {
         src: [
-          'src/esri-leaflet-geocoder.css'
+          'src/esri-leaflet-related.css'
         ],
-        dest: 'dist/esri-leaflet-geocoder-src.css'
+        dest: 'dist/esri-leaflet-related-src.css'
       }
     },
     uglify: {
@@ -55,8 +55,8 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/esri-leaflet-geocoder.js': [
-            'dist/esri-leaflet-geocoder-src.js'
+          'dist/esri-leaflet-related.js': [
+            'dist/esri-leaflet-related-src.js'
           ]
         }
       }
@@ -79,8 +79,8 @@ module.exports = function(grunt) {
           report: 'gzip'
         },
         files: {
-          'dist/esri-leaflet-geocoder.css': [
-            'dist/esri-leaflet-geocoder-src.css'
+          'dist/esri-leaflet-related.css': [
+            'dist/esri-leaflet-related-src.css'
           ]
         }
       }
@@ -101,11 +101,11 @@ module.exports = function(grunt) {
         upload: [
           {
             src: 'dist/*',
-            dest: 'esri-leaflet-geocoder/<%= pkg.version %>/'
+            dest: 'esri-leaflet-related/<%= pkg.version %>/'
           },
           {
             src: 'dist/img/*',
-            dest: 'esri-leaflet-geocoder/<%= pkg.version %>/img'
+            dest: 'esri-leaflet-related/<%= pkg.version %>/img'
           }
         ]
       }

@@ -1,47 +1,51 @@
-# Esri Leaflet GP
+# Esri Leaflet Related Records
 
-Esri Leaflet GP is a small series of API helpers and UI controls to interact with geoprocessing services published with ArcGIS Server
+Esri Leaflet GP is a small API helper to assist querying related tables published in ArcGIS Server or ArcGIS Online
 
-**Currently Esri Leaflet GP is in development and should be thought of as a beta or preview**
+**Currently Esri Leaflet Related Records is in development and should be thought of as a beta or preview**
 
-Esri Leaflet GP relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when neccessary. You can find out more about the Esri Leaflet Core on the [Esri Leaflet downloads page](http://esri.github.com/esri-leaflet/downloads).
+Esri Leaflet Related Records relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when neccessary. You can find out more about the Esri Leaflet Core on the [Esri Leaflet downloads page](http://esri.github.com/esri-leaflet/downloads).
 
 ## Example
-Note that this plugin requires changes introduced after esri-leaflet 0.0.1-beta.6 was released.  (tested against master branch on 10/1/14)
+Note that this plugin requires changes introduced in esri-leaflet 1.0.0-release candidate 2.
 
-Take a look at this [elevation profile demo](https://dl.dropboxusercontent.com/u/59331579/js/esri-leaflet-gp/gp-elevationprofile.html) to see it in action.
+Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/index.html) to see it in action.
 
 ```html
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset=utf-8 />
-  <title>gp drivetime</title>
+  <title>related table</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.2.4/bootstrap-table.min.css">
+
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <!-- cool bootstrap plugin for working with tables
+    //http://wenzhixin.net.cn/p/bootstrap-table/docs/index.html
+  -->
+  <script src="//rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.js"></script>
 
   <!-- Load Leaflet from CDN-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-  <!-- Esri Leaflet Core -->
-    <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet-core.js"></script>
-
-  <!-- Esri Leaflet GP -->
-  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.3/esri-leaflet-gp.js"></script>
-
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.2/esri-leaflet.js"></script>
+  <script src="src/esri-leaflet-related.js"></script>
   <style>
-    body {
-      margin:0;
-      padding:0;
-    }
-
+    body {margin:0;padding:0;}
     #map {
       position: absolute;
-      top:0;
-      bottom:0;
-      right:0;left:0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
     }
-
     #info-pane {
       position: absolute;
       top: 10px;
@@ -50,49 +54,95 @@ Take a look at this [elevation profile demo](https://dl.dropboxusercontent.com/u
       padding: 1em;
       background: white;
     }
+    .fixed-table-container {
+      position: absolute;
+      top: 10px;
+      left: 50px;
+      z-index: 10;
+      padding: 1em;
+      background: white;
+    }
+    .fixed-table-body {
+      max-height: 600px;
+      max-width: 400px;
+    }
+    #hidden {
+      display:none;
+    }
   </style>
 </head>
 <body>
-
+<div id='my-table' class="hidden leaflet-bar table-condensed">
+</div>
 <div id="map"></div>
 <div id="info-pane" class="leaflet-bar">
+  <label>
+  click on a bikeshare location <br>to see crowdsourced counts!
+  </label>
 </div>
 
 <script>
-  document.getElementById('info-pane').innerHTML = 'click on the map to calculate 5 and 10 minute drivetimes';
+  var map = L.map('map').setView([34.05873397817502, -117.2031784057617], 14);
+  L.esri.basemapLayer('Topographic').addTo(map);
 
-  var map = L.map('map').setView([40, -74.2], 12);
+  var fl = L.esri.featureLayer('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0').addTo(map);
 
-  L.esri.basemapLayer('NationalGeographic').addTo(map);
+  //wire up event listener to fire query when users click on individual features
+  fl.on("click", queryRelated);
 
-  var gpTask = new L.esri.Tasks.Geoprocessing("http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Network/ESRI_DriveTime_US/GPServer/CreateDriveTimePolygons", {useCors:false});
-  gpTask.gpString("Drive_Times", "5 10");
-
-  var driveTimes = new L.FeatureGroup();
-  map.addLayer(driveTimes);
-
-  var mapClickGeoJson = { "type": "FeatureCollection", "features": []};
-  mapClickGeoJson.features.push({ "type":"Feature", "geometry":{"type":"Point"}});
-
-  map.on('click', function(evt){
-    driveTimes.clearLayers();
-    mapClickGeoJson.features[0].geometry.coordinates = [];
-    mapClickGeoJson.features[0].geometry.coordinates.push(evt.latlng.lng, evt.latlng.lat);
-    gpTask.gpGeoJson("Input_Location", mapClickGeoJson)
-    gpTask.run(driveTimeCallback);
-  });
-
-  function driveTimeCallback(response, raw, error){
-    driveTimes.addLayer(L.geoJson(response));
+  function queryRelated(evt) {
+    var query = L.esri.Tasks.queryRelated('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0').objectIds([evt.layer.feature.id]).relationshipIds("0").run(function(error, response, raw) {
+      //pull the attributes only out of the geoJson response
+      if (response.features.length > 0) {
+        var results = [];
+        for (i=0; i < response.features.length; i++){
+          results.push(response.features[i].properties);
+        }
+        $('#my-table').removeClass('hidden');
+        //you can only call refresh() when loading from a url
+        $('#my-table').bootstrapTable('destroy');
+        $('#my-table').bootstrapTable({
+          data: results,
+          cache: false,
+          striped: true,
+          clickToSelect: true,
+          columns: [{
+              field: 'TIMESTAMP',
+              title: 'date',
+              sortable: true,
+              formatter: dateFormatter
+          }, {
+              field: 'AVAILABLEBIKES',
+              title: '# of bikes',
+              sortable: true
+          }, {
+              field: 'COMMENTS',
+              title: 'comments',
+              sortable: true
+          }]
+        });
+      }
+    })
   }
 
+  function dateFormatter(value, row) {
+    //reformat to make the dates human readable
+    var d = new Date(value);
+    when = d.getMonth() + '/' + d.getDay() + '/' + d.getFullYear();
+    return when;
+  }
+
+  map.on("click", function(){
+    //hide the table when someone clicks on the map
+    $('#my-table').bootstrapTable('destroy');
+  })
 </script>
 
 </body>
 </html>
 ```
 
-## L.esri.Tasks.Geoprocessing
+## L.esri.Tasks.QueryRelated
 
 ### Constructor
 
@@ -100,66 +150,57 @@ Take a look at this [elevation profile demo](https://dl.dropboxusercontent.com/u
 
 Constructor | Options | Description
 --- | --- | ---
-`new L.esri.Task.Geoprocessing(url)`<br>`L.esri.Tasks.Tasks(options)` | [`<GeoprocessingOptions>`](#options) | Creates a new Geoprocessing Task.
+`new L.esri.Task.QueryRelated(url)`<br>`L.esri.Tasks.Tasks(options)` | [`<Options>`](#options) | Creates a new QueryRelated Task.
 
 ### Options
 
-L.esri.Tasks.Geoprocessing accepts all L.esri.Tasks.Task options.
+L.esri.Tasks.QueryRelated accepts all L.esri.Tasks.Task options.
 
 ### Methods
 
 Method | Returns | Description
 --- | --- | ---
-`gpString(<String> inputParamName, <String> value)` | `this` | Sets an input string parameter.
-`gpNumber(<String> inputParamName, <Number> value)` | `this` | Sets an input number parameter.
-`gpBoolean(<String> inputParamName, <Boolean> value)` | `this` | Sets an input boolean parameter.
-`gpGeoJson(<String> inputParamName, <GeoJson> value)` | `this` | Converts a GeoJson geometry or FeatureCollection into GeoServices json before setting the input parameter.
+`objectIds(<Array> or <String>)` | `this` | The ObjectId(s) of the features to query for related records.
+`relationshipIds(<Array> or <String>)` | `this` | The Id of the relationship itself.
+`fields(<Array> or <String>)` | `this` | Determines which fields to include in response.
+`returnGeometry(<Boolean>)` | `this` | Include geometry in response features (default is `true`).
+`precision(<Number>)` | `this` | Determines decimal precision of response feature geometries.
+`definitionExpression(<String>)` | `this` | Used to add SQL filter.
+`returnZ(<Boolean>)` | `this` | Include elevation in response feature geometry (default is `true`).
+`returnM(<Boolean>)` | `this` | Include 4dimensional M value in response feature geometry (default is `false`).
 `run(<Function> callback)` | `this` | Calls the corresponding Geoprocessing service, passing the previously supplied input parameters.
-`gpAsyncResultParam(<String> resultParamName, <Object> value)` | `this` | Sets a result parameter for Asynchronous geoprocessing services that require it.
 
 #### Result Object
 
-A single result from the geoprocessing service. You should not rely on all these properties being present in every result object.
+A single result from a call to 'queryRelatedRecords'.
 
 Property | Type | Description
 --- | --- | ---
 `features` | [`L.geoJson`] | An array of geoJson features.
-`result` | `<object>`| A result object typically containing a link to the url of an output file written to disk on the server.
 
 #### GP Results
 
-Geoprocessing results conform to the following format
+Query Related Records results conform to the following format
 
 ```json
-[
-  {
-    features: [L.geoJson],
-    result:{
-      "paramName": "Output_File",
-      "dataType": "GPDataFile",
-      "value": {
-        "url": "http://server/arcgis/rest/directories/arcgisoutput/./_ags_856aed6eb_.png"
-      }
-    }
-  }
-]
+{ features: [L.geoJson] }
 ```
 
 ## Development Instructions
 
-1. [Fork and clone Esri Leaflet GP](https://help.github.com/articles/fork-a-repo)
-2. `cd` into the `esri-leaflet-gp` folder
+1. [Fork and clone Esri Leaflet Related Records](https://help.github.com/articles/fork-a-repo)
+2. `cd` into the `esri-leaflet-related` folder
 5. Install the dependencies with `npm install`
 5. The example at `/index.html` should work
 6. Make your changes and create a [pull request](https://help.github.com/articles/creating-a-pull-request)
 
 ## Dependencies
 
-Esri Leaflet GP relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when neccessary. You can fine out more about teh Esri Leaflet Core on the [Esri Leaflet downloads page](http://esri.github.com/esri-leaflet/downloads).
+Esri Leaflet Related Records relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when neccessary. You can fine out more about teh Esri Leaflet Core on the [Esri Leaflet downloads page](http://esri.github.com/esri-leaflet/downloads).
 
 ## Resources
 
-* [Geoprocessing Services Documentation](http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/GP_Service/02r3000000rq000000/)
+* [Query Related Records REST Documentation](http://resources.arcgis.com/en/help/arcgis-rest-api/#/Query_Related_Records/02r300000115000000/)
 * [ArcGIS for Developers](http://developers.arcgis.com)
 * [ArcGIS REST Services](http://resources.arcgis.com/en/help/arcgis-rest-api/)
 * [twitter@esri](http://twitter.com/esri)

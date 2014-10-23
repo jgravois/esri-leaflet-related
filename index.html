@@ -1,36 +1,36 @@
 <html>
 <head>
   <meta charset=utf-8 />
-  <title>gp drivetime</title>
+  <title>related table</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.2.4/bootstrap-table.min.css">
+
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <!-- cool bootstrap plugin for working with tables
+    //http://wenzhixin.net.cn/p/bootstrap-table/docs/index.html
+  -->
+  <script src="//rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.js"></script>
 
   <!-- Load Leaflet from CDN-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-  <script src="../esri-leaflet/src/EsriLeaflet.js"></script>
-  <script src="../esri-leaflet/src/Request.js"></script>
-  <script src="../esri-leaflet/src/Services/Service.js"></script>
-
-  <script src="../esri-leaflet/src/Tasks/Task.js"></script>
-  <script src="../esri-leaflet/src/Services/MapService.js"></script>
-  <script src="../esri-leaflet/src/Layers/BasemapLayer.js"></script>
-  <script src="../esri-leaflet/src/Controls/Logo.js"></script>
-  <script src="../esri-leaflet/src/Util.js"></script>
-  <script src="src/esri-leaflet-gp.js"></script>
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.2/esri-leaflet.js"></script>
+  <script src="src/esri-leaflet-related.js"></script>
   <style>
-    body {
-      margin:0;
-      padding:0;
-    }
-
+    body {margin:0;padding:0;}
     #map {
       position: absolute;
-      top:0;
-      bottom:0;
-      right:0;left:0;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
     }
-
     #info-pane {
       position: absolute;
       top: 10px;
@@ -39,45 +39,88 @@
       padding: 1em;
       background: white;
     }
+    .fixed-table-container {
+      position: absolute;
+      top: 10px;
+      left: 50px;
+      z-index: 10;
+      padding: 1em;
+      background: white;
+    }
+    .fixed-table-body {
+      max-height: 600px;
+      max-width: 400px;
+    }
+    #hidden {
+      display:none;
+    }
   </style>
 </head>
 <body>
-
+<div id='my-table' class="hidden leaflet-bar table-condensed">
+</div>
 <div id="map"></div>
 <div id="info-pane" class="leaflet-bar">
   <label>
-    click on the map to calculate 5 and 10 minute drivetimes
+  click on a bikeshare location <br>to see crowdsourced counts!
   </label>
 </div>
 
 <script>
-  var map = L.map('map').setView([40, -74.2], 12);
+  var map = L.map('map').setView([34.05873397817502, -117.2031784057617], 14);
+  L.esri.basemapLayer('Topographic').addTo(map);
 
-  L.esri.basemapLayer('NationalGeographic').addTo(map);
+  var fl = L.esri.featureLayer('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0').addTo(map);
 
-  var gpTask = new L.esri.Tasks.Geoprocessing("http://sampleserver1.arcgisonline.com/ArcGIS/rest/services/Network/ESRI_DriveTime_US/GPServer/CreateDriveTimePolygons", {useCors:false});
-  gpTask.gpString("Drive_Times", "5 10");
+  //wire up event listener to fire query when users click on individual features
+  fl.on("click", queryRelated);
 
-  var driveTimes = new L.FeatureGroup();
-  map.addLayer(driveTimes);
-
-  var mapClickGeoJson = { "type": "FeatureCollection", "features": []};
-  mapClickGeoJson.features.push({ "type":"Feature", "geometry":{"type":"Point"}});
-
-  map.on('click', function(evt){
-    document.getElementById('info-pane').innerHTML = 'working...';
-    driveTimes.clearLayers();
-    mapClickGeoJson.features[0].geometry.coordinates = [];
-    mapClickGeoJson.features[0].geometry.coordinates.push(evt.latlng.lng, evt.latlng.lat);
-    gpTask.gpGeoJson("Input_Location", mapClickGeoJson)
-    gpTask.run(driveTimeCallback);
-  });
-
-  function driveTimeCallback(error, response, raw){
-    document.getElementById('info-pane').innerHTML = 'click on the map to calculate 5 and 10 minute drivetimes';
-    driveTimes.addLayer(L.geoJson(response));
+  function queryRelated(evt) {
+    var query = L.esri.Tasks.queryRelated('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0').objectIds([evt.layer.feature.id]).relationshipIds("0").run(function(error, response, raw) {
+      //pull the attributes only out of the geoJson response
+      if (response.features.length > 0) {
+        var results = [];
+        for (i=0; i < response.features.length; i++){
+          results.push(response.features[i].properties);
+        }
+        $('#my-table').removeClass('hidden');
+        //you can only call refresh() when loading from a url
+        $('#my-table').bootstrapTable('destroy');
+        $('#my-table').bootstrapTable({
+          data: results,
+          cache: false,
+          striped: true,
+          clickToSelect: true,
+          columns: [{
+              field: 'TIMESTAMP',
+              title: 'date',
+              sortable: true,
+              formatter: dateFormatter
+          }, {
+              field: 'AVAILABLEBIKES',
+              title: '# of bikes',
+              sortable: true
+          }, {
+              field: 'COMMENTS',
+              title: 'comments',
+              sortable: true
+          }]
+        });
+      }
+    })
   }
 
+  function dateFormatter(value, row) {
+    //reformat to make the dates human readable
+    var d = new Date(value);
+    when = d.getMonth() + '/' + d.getDay() + '/' + d.getFullYear();
+    return when;
+  }
+
+  map.on("click", function(){
+    //hide the table when someone clicks on the map
+    $('#my-table').bootstrapTable('destroy');
+  })
 </script>
 
 </body>
