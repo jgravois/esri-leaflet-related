@@ -18,18 +18,6 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <meta charset=utf-8 />
   <title>related table</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.2.4/bootstrap-table.min.css">
-
-  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
-
-  <!-- cool bootstrap plugin for working with tables
-    //http://wenzhixin.net.cn/p/bootstrap-table/docs/index.html
-  -->
-  <script src="//rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.js"></script>
-
   <!-- Load Leaflet from CDN-->
   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
@@ -54,26 +42,9 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
       padding: 1em;
       background: white;
     }
-    .fixed-table-container {
-      position: absolute;
-      top: 10px;
-      left: 50px;
-      z-index: 10;
-      padding: 1em;
-      background: white;
-    }
-    .fixed-table-body {
-      max-height: 600px;
-      max-width: 400px;
-    }
-    #hidden {
-      display:none;
-    }
   </style>
 </head>
 <body>
-<div id='my-table' class="hidden leaflet-bar table-condensed">
-</div>
 <div id="map"></div>
 <div id="info-pane" class="leaflet-bar">
   <label>
@@ -91,51 +62,10 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   fl.on("click", queryRelated);
 
   function queryRelated(evt) {
-    var query = L.esri.Tasks.queryRelated('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0').objectIds([evt.layer.feature.id]).relationshipIds("0").run(function(error, response, raw) {
-      //pull the attributes only out of the geoJson response
-      if (response.features.length > 0) {
-        var results = [];
-        for (i=0; i < response.features.length; i++){
-          results.push(response.features[i].properties);
-        }
-        $('#my-table').removeClass('hidden');
-        //you can only call refresh() when loading from a url
-        $('#my-table').bootstrapTable('destroy');
-        $('#my-table').bootstrapTable({
-          data: results,
-          cache: false,
-          striped: true,
-          clickToSelect: true,
-          columns: [{
-              field: 'TIMESTAMP',
-              title: 'date',
-              sortable: true,
-              formatter: dateFormatter
-          }, {
-              field: 'AVAILABLEBIKES',
-              title: '# of bikes',
-              sortable: true
-          }, {
-              field: 'COMMENTS',
-              title: 'comments',
-              sortable: true
-          }]
-        });
-      }
+    var query = L.esri.Tasks.queryRelated('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0').objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+      console.log(response.features.length);
     })
   }
-
-  function dateFormatter(value, row) {
-    //reformat to make the dates human readable
-    var d = new Date(value);
-    when = d.getMonth() + '/' + d.getDay() + '/' + d.getFullYear();
-    return when;
-  }
-
-  map.on("click", function(){
-    //hide the table when someone clicks on the map
-    $('#my-table').bootstrapTable('destroy');
-  })
 </script>
 
 </body>
@@ -161,7 +91,7 @@ L.esri.Tasks.QueryRelated accepts all L.esri.Tasks.Task options.
 Method | Returns | Description
 --- | --- | ---
 `objectIds(<Array> or <String>)` | `this` | The ObjectId(s) of the features to query for related records.
-`relationshipIds(<Array> or <String>)` | `this` | The Id of the relationship itself.
+`relationshipId(<String>)` | `this` | The Id of the relationship itself.
 `fields(<Array> or <String>)` | `this` | Determines which fields to include in response.
 `returnGeometry(<Boolean>)` | `this` | Include geometry in response features (default is `true`).
 `precision(<Number>)` | `this` | Determines decimal precision of response feature geometries.

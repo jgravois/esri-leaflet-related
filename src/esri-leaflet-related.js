@@ -4,7 +4,7 @@ L.esri.Tasks.QueryRelated = L.esri.Tasks.Task.extend({
     'limit': 'limit',
     'outFields': 'fields[]',
     'objectIds': 'objectIds[]',
-    'relationshipIds': 'relationshipIds[]',
+    'relationshipId': 'relationshipId',
     'definitionExpression': 'definitionExpression',
     'precision': 'geometryPrecision',
     'featureIds': 'objectIds[]',
