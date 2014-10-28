@@ -1,6 +1,6 @@
 # Esri Leaflet Related Records
 
-Esri Leaflet GP is a small API helper to assist querying related tables published in ArcGIS Server or ArcGIS Online
+Esri Leaflet Related Records is a small API helper to assist querying related tables published in ArcGIS Server or ArcGIS Online
 
 **Currently Esri Leaflet Related Records is in development and should be thought of as a beta or preview**
 
@@ -63,7 +63,7 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 
   function queryRelated(evt) {
     var query = L.esri.Tasks.queryRelated('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0').objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
-      console.log(response.features.length);
+      console.log(response.features.length + " related records found.");
     })
   }
 </script>
