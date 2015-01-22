@@ -7,6 +7,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     jshint: {
       options: {
+        jshintrc: '.jshintrc',
         curly: true,
         eqeqeq: true,
         immed: true,
@@ -36,16 +37,16 @@ module.exports = function(grunt) {
       },
       js: {
         src: [
-          'src/esri-leaflet-related.js'
+          'src/EsriLeafletRelated.js'
         ],
         dest: 'dist/esri-leaflet-related-src.js'
-      },
+      }/*,
       css: {
         src: [
           'src/esri-leaflet-related.css'
         ],
         dest: 'dist/esri-leaflet-related-src.css'
-      }
+      }*/
     },
     uglify: {
       options: {
@@ -71,7 +72,7 @@ module.exports = function(grunt) {
         }]
       }
     },
-    cssmin: {
+    /*cssmin: {
       main: {
         options: {
           wrap: false,
@@ -84,7 +85,7 @@ module.exports = function(grunt) {
           ]
         }
       }
-    },
+    },*/
     s3: {
       options: {
         key: '<%= aws.key %>',
@@ -120,8 +121,8 @@ module.exports = function(grunt) {
   }
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('build', ['jshint', 'concat', 'uglify', 'imagemin', 'cssmin']);
-
+  grunt.registerTask('build', ['jshint', 'concat', 'uglify', 'imagemin'/*, 'cssmin'*/]);
+  grunt.registerTask('prepublish', ['concat', 'uglify', 'imagemin'/*, 'cssmin'*/]);
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');

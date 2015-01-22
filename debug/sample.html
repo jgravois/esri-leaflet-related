@@ -1,0 +1,129 @@
+<html>
+<head>
+  <meta charset=utf-8 />
+  <title>related table</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.2.4/bootstrap-table.min.css">
+
+  <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+  <!-- cool bootstrap plugin for working with tables
+    //http://wenzhixin.net.cn/p/bootstrap-table/docs/index.html
+  -->
+  <script src="//rawgit.com/wenzhixin/bootstrap-table/master/dist/bootstrap-table.min.js"></script>
+
+  <!-- Load Leaflet -->
+  <link rel="stylesheet" href="../node_modules/leaflet/dist/leaflet.css" />
+  <script src="../node_modules/leaflet/dist/leaflet.js"></script>
+
+  <!-- Load Esri Leaflet -->
+  <script src="../node_modules/esri-leaflet/dist/esri-leaflet.js"></script>
+
+  <script src="../src/EsriLeafletRelated.js"></script>
+
+  <style>
+    body {margin:0;padding:0;}
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+    }
+    #info-pane {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 10;
+      padding: 1em;
+      background: white;
+    }
+    .fixed-table-container {
+      position: absolute;
+      top: 10px;
+      left: 50px;
+      z-index: 10;
+      padding: 1em;
+      background: white;
+    }
+    .fixed-table-body {
+      max-height: 600px;
+      max-width: 400px;
+    }
+    #hidden {
+      display:none;
+    }
+  </style>
+</head>
+<body>
+<div id='my-table' class="hidden leaflet-bar table-condensed">
+</div>
+<div id="map"></div>
+<div id="info-pane" class="leaflet-bar">
+  <label>
+  click on a bikeshare location <br>to see crowdsourced counts!
+  </label>
+</div>
+
+<script>
+  var map = L.map('map').setView([34.05873, -117.20317 ], 14);
+  L.esri.basemapLayer('Topographic').addTo(map);
+
+  var fl = L.esri.featureLayer('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0').addTo(map);
+
+  //wire up event listener to fire query when users click on individual features
+  fl.on("click", queryRelated);
+
+  function queryRelated(evt) {
+    var query = L.esri.Tasks.queryRelated({url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0'}).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+      //pull the attributes only out of the geoJson response
+      if (response.features.length > 0) {
+        var results = [];
+        for (i=0; i < response.features.length; i++){
+          results.push(response.features[i].properties);
+        }
+        $('#my-table').removeClass('hidden');
+        //you can only call refresh() when loading from a url
+        $('#my-table').bootstrapTable('destroy');
+        $('#my-table').bootstrapTable({
+          data: results,
+          cache: false,
+          striped: true,
+          clickToSelect: true,
+          columns: [{
+              field: 'TIMESTAMP',
+              title: 'date',
+              sortable: true,
+              formatter: dateFormatter
+          }, {
+              field: 'AVAILABLEBIKES',
+              title: '# of bikes',
+              sortable: true
+          }, {
+              field: 'COMMENTS',
+              title: 'comments',
+              sortable: true
+          }]
+        });
+      }
+    })
+  }
+
+  function dateFormatter(value, row) {
+    //reformat to make the dates human readable
+    var d = new Date(value);
+    when = d.getMonth() + '/' + d.getDay() + '/' + d.getFullYear();
+    return when;
+  }
+
+  map.on("click", function(){
+    //hide the table when someone clicks on the map
+    $('#my-table').bootstrapTable('destroy');
+  })
+</script>
+
+</body>
+</html>
