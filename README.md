@@ -7,7 +7,7 @@ Esri Leaflet Related Records is a small API helper to assist querying related ta
 Esri Leaflet Related Records relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when neccessary. You can find out more about the Esri Leaflet Core on the [Esri Leaflet downloads page](http://esri.github.com/esri-leaflet/downloads).
 
 ## Example
-Note that this plugin requires changes introduced in esri-leaflet 1.0.0-release candidate 2.
+Note that the latest version of this plugin requires changes introduced in esri-leaflet 1.0.0 Release Candidate 5.
 
 Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/index.html) to see it in action.
 
@@ -24,7 +24,7 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 
   <!-- Load Esri Leaflet from CDN -->
   <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.2/esri-leaflet.js"></script>
-  <script src="src/esri-leaflet-related.js"></script>
+  <script src="src/EsriLeafletRelated.js"></script>
   <style>
     body {margin:0;padding:0;}
     #map {
@@ -62,7 +62,7 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   fl.on("click", queryRelated);
 
   function queryRelated(evt) {
-    var query = L.esri.Tasks.queryRelated('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0').objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+    var query = L.esri.Tasks.queryRelated({url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0'}).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
       console.log(response.features.length + " related records found.");
     })
   }
@@ -80,11 +80,11 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 
 Constructor | Options | Description
 --- | --- | ---
-`new L.esri.Task.QueryRelated(url)`<br>`L.esri.Tasks.Tasks(options)` | [`<Options>`](#options) | Creates a new QueryRelated Task.
+`new L.esri.Task.QueryRelated(options)`<br>`L.esri.Tasks.Tasks(options)` | [`<Options>`](#options) | Creates a new QueryRelated Task.
 
 ### Options
 
-L.esri.Tasks.QueryRelated accepts all L.esri.Tasks.Task options.
+L.esri.Tasks.QueryRelated accepts all L.esri.Tasks.Task options.  The `url` option is required.
 
 ### Methods
 
