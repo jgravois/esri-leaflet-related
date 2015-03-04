@@ -1,6 +1,6 @@
 {
   "name": "esri-leaflet-related",
-  "version": "0.0.1-beta.2",
+  "version": "0.0.1-alpha.3",
   "description": "A Leaflet plugin that allows users to query related tables.",
   "homepage": "https://github.com/jgravois/esri-leaflet-related",
   "repository": {
