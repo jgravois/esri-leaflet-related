@@ -1,6 +1,9 @@
 var fs = require('fs');
 
 module.exports = function(grunt) {
+
+  var browsers = grunt.option('browser') ? grunt.option('browser').split(',') : ['PhantomJS'];
+
   var copyright = '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
                    '*   Copyright (c) <%= grunt.template.today("yyyy") %> Environmental Systems Research Institute, Inc.\n' +
                    '*   Apache 2.0 License ' +
@@ -65,6 +68,41 @@ module.exports = function(grunt) {
       }
     },
 
+    karma: {
+      options: {
+        configFile: 'karma.conf.js'
+      },
+      run: {
+        reporters: ['progress'],
+        browsers: browsers
+      },
+      coverage: {
+        reporters: ['progress', 'coverage'],
+        browsers: browsers,
+        preprocessors: {
+          'src/**/*.js': 'coverage'
+        }
+      },
+      watch: {
+        singleRun: false,
+        autoWatch: true,
+        browsers: browsers
+      }
+    },
+
+    watch: {
+      scripts: {
+        files: [
+          'src/**/*.js',
+          'src/*.js'
+        ],
+        tasks: ['jshint'],
+        options: {
+          spawn: false
+        }
+      }
+    },
+
     s3: {
       options: {
         key: '<%= aws.key %>',
@@ -115,6 +153,7 @@ module.exports = function(grunt) {
   grunt.registerTask('build', ['jshint', 'concat', 'uglify', /*'imagemin', 'cssmin'*/]);
   grunt.registerTask('prepublish', ['concat', 'uglify', /*'imagemin', 'cssmin'*/]);
   grunt.registerTask('release', ['releaseable', 's3']);
+  grunt.registerTask('test', ['jshint', 'karma:run']);
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
@@ -122,7 +161,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
-  grunt.loadNpmTasks('grunt-releaseable');
   grunt.loadNpmTasks('grunt-s3');
-
+  grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-releaseable');
 };

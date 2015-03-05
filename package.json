@@ -20,7 +20,17 @@
     "grunt-contrib-concat": "^0.3.0",
     "grunt-contrib-imagemin": "^0.3.0",
     "grunt-releaseable": "0.0.12",
-    "grunt-s3": "^0.2.0-alpha.3"
+    "grunt-s3": "^0.2.0-alpha.3",
+    "karma": "^0.12.16",
+    "karma-chai-sinon": "^0.1.3",
+    "karma-chrome-launcher": "^0.1.3",
+    "karma-coverage": "^0.1",
+    "karma-firefox-launcher": "^0.1.3",
+    "karma-mocha": "^0.1.0",
+    "karma-mocha-reporter": "^0.2.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "karma-safari-launcher": "^0.1.1",
+    "karma-sauce-launcher": "^0.2.10"
   },
   "author": "John Gravois <jgravois@esri.com> (http://johngravois.com)",
   "contributors": [
