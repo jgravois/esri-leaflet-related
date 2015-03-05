@@ -23,8 +23,8 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
   <!-- Load Esri Leaflet from CDN -->
-  <script src="http://cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.5/esri-leaflet.js"></script>
-  <script src="src/EsriLeafletRelated.js"></script>
+  <script src="//cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.5/esri-leaflet.js"></script>
+  <script src="//cdn-geoweb.s3.amazonaws.com/esri-leaflet-related/0.0.1-beta.1/esri-leaflet-related.min.js"></script>
   <style>
     body {margin:0;padding:0;}
     #map {
