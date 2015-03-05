@@ -1,6 +1,6 @@
 {
   "name": "esri-leaflet-related",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-beta.1",
   "description": "A Leaflet plugin that allows users to query related tables.",
   "homepage": "https://github.com/jgravois/esri-leaflet-related",
   "repository": {
@@ -19,6 +19,7 @@
     "grunt-contrib-cssmin": "^0.6.0",
     "grunt-contrib-concat": "^0.3.0",
     "grunt-contrib-imagemin": "^0.3.0",
+    "grunt-releaseable": "0.0.12",
     "grunt-s3": "^0.2.0-alpha.3"
   },
   "author": "John Gravois <jgravois@esri.com> (http://johngravois.com)",

@@ -1,6 +1,10 @@
 var fs = require('fs');
 
 module.exports = function(grunt) {
+  var copyright = '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
+                   '*   Copyright (c) <%= grunt.template.today("yyyy") %> Environmental Systems Research Institute, Inc.\n' +
+                   '*   Apache 2.0 License ' +
+                   '*/\n\n';
 
   // Project configuration.
   grunt.initConfig({
@@ -26,66 +30,41 @@ module.exports = function(grunt) {
           L:true
         }
       },
-      all: ['src/**/*.js']
+      all: ['src/*.js']
     },
+
     concat: {
       options: {
-        banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - <%= grunt.template.today("yyyy-mm-dd") %>\n' +
-        '*   Copyright (c) <%= grunt.template.today("yyyy") %> Environmental Systems Research Institute, Inc.\n' +
-        '*   Apache 2.0 License ' +
-        '*/\n\n'
+        banner: copyright,
+        sourceMap: true,
+        separator: '\n\n'
       },
       js: {
         src: [
           'src/EsriLeafletRelated.js'
         ],
-        dest: 'dist/esri-leaflet-related-src.js'
-      }/*,
-      css: {
-        src: [
-          'src/esri-leaflet-related.css'
-        ],
-        dest: 'dist/esri-leaflet-related-src.css'
-      }*/
+        dest: 'dist/esri-leaflet-related.js'
+      }
     },
+
     uglify: {
       options: {
         wrap: false,
         preserveComments: 'some',
-        report: 'gzip'
+        report: 'gzip',
+        banner: copyright,
+        sourceMap: true,
+        sourceMapIncludeSources: true,
       },
       dist: {
         files: {
-          'dist/esri-leaflet-related.js': [
-            'dist/esri-leaflet-related-src.js'
+          'dist/esri-leaflet-related.min.js': [
+            'dist/esri-leaflet-related.js'
           ]
         }
       }
     },
-    imagemin: {
-      dynamic: {
-        files: [{
-          expand: true,
-          cwd: 'src/',
-          src: ['img/*.{png,jpg,gif}'],
-          dest: 'dist/'
-        }]
-      }
-    },
-    /*cssmin: {
-      main: {
-        options: {
-          wrap: false,
-          preserveComments: 'some',
-          report: 'gzip'
-        },
-        files: {
-          'dist/esri-leaflet-related.css': [
-            'dist/esri-leaflet-related-src.css'
-          ]
-        }
-      }
-    },*/
+
     s3: {
       options: {
         key: '<%= aws.key %>',
@@ -98,6 +77,18 @@ module.exports = function(grunt) {
           "Expires": new Date(Date.now() + 63072000000).toUTCString()
         }
       },
+
+      releaseable: {
+        release: {
+          options: {
+            remote: 'origin',
+            dryRun: grunt.option('dryRun') ? grunt.option('dryRun') : false,
+            silent: false
+          },
+          src: [ 'dist/**/*.js','dist/**/*.map' ]
+        }
+      },
+
       dev: {
         upload: [
           {
@@ -121,14 +112,17 @@ module.exports = function(grunt) {
   }
 
   grunt.registerTask('default', ['build']);
-  grunt.registerTask('build', ['jshint', 'concat', 'uglify', 'imagemin'/*, 'cssmin'*/]);
-  grunt.registerTask('prepublish', ['concat', 'uglify', 'imagemin'/*, 'cssmin'*/]);
+  grunt.registerTask('build', ['jshint', 'concat', 'uglify', /*'imagemin', 'cssmin'*/]);
+  grunt.registerTask('prepublish', ['concat', 'uglify', /*'imagemin', 'cssmin'*/]);
+  grunt.registerTask('release', ['releaseable', 's3']);
+
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-imagemin');
+  grunt.loadNpmTasks('grunt-releaseable');
   grunt.loadNpmTasks('grunt-s3');
 
 };
