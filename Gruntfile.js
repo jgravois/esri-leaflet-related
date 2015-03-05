@@ -114,33 +114,33 @@ module.exports = function(grunt) {
           "Cache-Control": "max-age=630720000, public",
           "Expires": new Date(Date.now() + 63072000000).toUTCString()
         }
-      },
-
-      releaseable: {
-        release: {
-          options: {
-            remote: 'origin',
-            dryRun: grunt.option('dryRun') ? grunt.option('dryRun') : false,
-            silent: false
-          },
-          src: [ 'dist/**/*.js','dist/**/*.map' ]
-        }
-      },
-
-      dev: {
-        upload: [
-          {
-            src: 'dist/*',
-            dest: 'esri-leaflet-related/<%= pkg.version %>/'
-          },
-          {
-            src: 'dist/img/*',
-            dest: 'esri-leaflet-related/<%= pkg.version %>/img'
-          }
-        ]
       }
-    }
+    },
 
+    releaseable: {
+      release: {
+        options: {
+          remote: 'origin',
+          mainBranch: 'master',
+          dryRun: grunt.option('dryRun') ? grunt.option('dryRun') : false,
+          silent: false
+        },
+        src: [ 'dist/**/*.js','dist/**/*.map' ]
+      }
+    },
+
+    dev: {
+      upload: [
+        {
+          src: 'dist/*',
+          dest: 'esri-leaflet-related/<%= pkg.version %>/'
+        },
+        {
+          src: 'dist/img/*',
+          dest: 'esri-leaflet-related/<%= pkg.version %>/img'
+        }
+      ]
+    }
   });
 
   var awsExists = fs.existsSync(process.env.HOME + '/esri-leaflet-s3.json');
@@ -159,8 +159,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-imagemin');
   grunt.loadNpmTasks('grunt-s3');
   grunt.loadNpmTasks('grunt-karma');
   grunt.loadNpmTasks('grunt-releaseable');

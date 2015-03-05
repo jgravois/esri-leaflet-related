@@ -1,5 +1,10 @@
 # Changelog
 
+## Beta 1
+
+**Changes**
+* grunt autorelease and sourceMap magic added
+
 ## Alpha 2
 
 **Breaking Changes**
