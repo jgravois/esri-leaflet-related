@@ -62,7 +62,7 @@ L.esri.Tasks.QueryRelated = Esri.Tasks.Task.extend({
       }
       callback.call(context, error, (response && L.esri.Util.responseToFeatureCollection(result)), response);
     }, context);
-  },
+  }
 
   // no clue why i ever included this originally.  object's hardcoded 'path' property is appended to featureLayer url in Task.Request automatically.
   // layer: function(layer) {
