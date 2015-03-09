@@ -21,7 +21,7 @@
 
   <!-- Load Esri Leaflet from CDN -->
   <script src="//cdn-geoweb.s3.amazonaws.com/esri-leaflet/1.0.0-rc.6/esri-leaflet.js"></script>
-  <script src="//cdn-geoweb.s3.amazonaws.com/esri-leaflet-related/0.0.1-beta.1/esri-leaflet-related.js"></script>
+  <script src="//cdn-geoweb.s3.amazonaws.com/esri-leaflet-related/0.0.1-beta.2/esri-leaflet-related.js"></script>
 
   <style>
     body {margin:0;padding:0;}
@@ -68,17 +68,17 @@
 </div>
 
 <script>
-  var map = L.map('map').setView([34.05873397817502, -117.2031784057617], 14);
+  var map = L.map('map').setView([34.05873, -117.20317 ], 14);
   L.esri.basemapLayer('Topographic').addTo(map);
 
   var fl = L.esri.featureLayer('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0').addTo(map);
 
-  //wire up event listener to fire query when users click on individual features
+  // fire a query when users click on a feature
   fl.on("click", queryRelated);
 
   function queryRelated(evt) {
-    var query = L.esri.Tasks.queryRelated({url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0'}).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
-      //pull the attributes only out of the geoJson response
+    L.esri.Tasks.queryRelated(fl).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+      //pull the attributes out of the geoJson response
       if (response.features.length > 0) {
         var results = [];
         for (i=0; i < response.features.length; i++){
@@ -108,7 +108,7 @@
           }]
         });
       }
-    })
+    });
   }
 
   function dateFormatter(value, row) {
@@ -119,9 +119,9 @@
   }
 
   map.on("click", function(){
-    //hide the table when someone clicks on the map
+    //hide the table when the map is clicked
     $('#my-table').bootstrapTable('destroy');
-  })
+  });
 </script>
 
 </body>

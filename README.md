@@ -62,7 +62,7 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   fl.on("click", queryRelated);
 
   function queryRelated(evt) {
-    var query = L.esri.Tasks.queryRelated({url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0'}).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+    var query = L.esri.Tasks.queryRelated(fl).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
       console.log(response.features.length + " related records found.");
     })
   }
@@ -80,11 +80,11 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 
 Constructor | Options | Description
 --- | --- | ---
-`new L.esri.Task.QueryRelated(options)`<br>`L.esri.Tasks.Tasks(options)` | [`<Options>`](#options) | Creates a new QueryRelated Task.
+`new L.esri.Task.QueryRelated(<FeatureLayer> endpoint)`<br>`L.esri.Task.queryRelated(<FeatureLayer> endpoint)`<br>`new L.esri.Task.QueryRelated(<Object> options)`<br>`L.esri.Task.queryRelated(<Object> options)` | [`<FeatureLayer>`](#endpoint)<br>or<br>[`<Options>`](#options) | Accepts either an `options` object or an instance of [FeatureLayer](http://esri.github.io/esri-leaflet/api-reference/services/feature-layer.html).
 
 ### Options
 
-L.esri.Tasks.QueryRelated accepts all L.esri.Tasks.Task options.  The `url` option is required.
+L.esri.Tasks.QueryRelated accepts all L.esri.Tasks.Task options.  When used, the `url` option is required.
 
 ### Methods
 
@@ -153,7 +153,7 @@ Signup for an [ArcGIS for Developers account](https://developers.arcgis.com/en/p
 This information is from the [ArcGIS for Developers Terms of Use FAQ](https://developers.arcgis.com/en/terms/faq/)
 
 ## Licensing
-Copyright 2014 Esri
+Copyright 2015 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

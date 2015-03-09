@@ -1,5 +1,13 @@
 # Changelog
 
+## Beta 2
+
+**Breaking Changes**
+* QueryRelated now expects either an `options` object or an instance of `L.esri.layer.FeatureLayer` to be passed in the constructor (via d69d928fb70169e90f00c132ec38456fe6b56705)
+
+**Changes**
+* added test scaffolding (baby steps) (via c1fd72f3d3a03a8690ee3716451e29175b1ec0a4)
+
 ## Beta 1
 
 **Changes**

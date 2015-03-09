@@ -78,7 +78,8 @@
   fl.on("click", queryRelated);
 
   function queryRelated(evt) {
-    L.esri.Tasks.queryRelated(fl).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+    var query = L.esri.Tasks.queryRelated(fl).objectIds([evt.layer.feature.id]).
+    relationshipId("0").run(function(error, response, raw) {
       //pull the attributes out of the geoJson response
       if (response.features.length > 0) {
         var results = [];
@@ -122,7 +123,7 @@
   map.on("click", function(){
     //hide the table when the map is clicked
     $('#my-table').bootstrapTable('destroy');
-  })
+  });
 </script>
 
 </body>

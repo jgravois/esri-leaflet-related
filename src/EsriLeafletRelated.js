@@ -3,7 +3,7 @@ if (!Esri) {
   var Esri = window.L.esri;
 }
 
-EsriLeafletRelated = Esri.Tasks.Task.extend({
+L.esri.Tasks.QueryRelated = Esri.Tasks.Task.extend({
   setters: {
     'offset': 'offset',
     'limit': 'limit',
@@ -31,10 +31,14 @@ EsriLeafletRelated = Esri.Tasks.Task.extend({
 
   //http://resources.arcgis.com/en/help/arcgis-rest-api/#/Query_Related_Records/02r300000115000000/
 
-  initialize: function(featureLayer) {
-    this.params.url = featureLayer.options.url;
-    //don't replace parent initialize
-    L.esri.Tasks.Task.prototype.initialize.call(this, this.params);
+  initialize: function(endpoint) {
+    //don't replace parent initialize, either pass FeatureLayer._service or the raw options object
+    if (endpoint._service) {
+      L.esri.Tasks.Task.prototype.initialize.call(this, endpoint._service);
+    }
+    else {
+      L.esri.Tasks.Task.prototype.initialize.call(this, endpoint);
+    }
 
   },
 
@@ -60,7 +64,7 @@ EsriLeafletRelated = Esri.Tasks.Task.extend({
     }, context);
   },
 
-  // no clue why i ever included this.  object's hardcoded 'path' property is appended to featureLayer url in Task.Request automatically.
+  // no clue why i ever included this originally.  object's hardcoded 'path' property is appended to featureLayer url in Task.Request automatically.
   // layer: function(layer) {
   //   this.path = layer + '/queryRelatedRecords';
   //   return this;
@@ -69,7 +73,7 @@ EsriLeafletRelated = Esri.Tasks.Task.extend({
 
 // attach to the L.esri global if available
 if (typeof window !== 'undefined' && window.L && window.L.esri) {
-  window.L.esri.Tasks.queryRelated = function(featureLayer) {
-    return new EsriLeafletRelated(featureLayer);
+  window.L.esri.Tasks.queryRelated = function(endpoint) {
+    return new L.esri.Tasks.QueryRelated(endpoint);
   };
 }
