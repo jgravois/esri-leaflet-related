@@ -31,7 +31,15 @@ EsriLeafletRelated = Esri.Tasks.Task.extend({
 
   //http://resources.arcgis.com/en/help/arcgis-rest-api/#/Query_Related_Records/02r300000115000000/
 
+  initialize: function(featureLayer) {
+    this.params.url = featureLayer.options.url;
+    //don't replace parent initialize
+    L.esri.Tasks.Task.prototype.initialize.call(this, this.params);
+
+  },
+
   simplify: function(map, factor) {
+    //not sure if there's a better way to port L.esri.Tasks.Query.simplify() than just copy/pasting the function
     var mapWidth = Math.abs(map.getBounds().getWest() - map.getBounds().getEast());
     this.params.maxAllowableOffset = (mapWidth / map.getSize().y) * factor;
     return this;
@@ -52,17 +60,16 @@ EsriLeafletRelated = Esri.Tasks.Task.extend({
     }, context);
   },
 
-  layer: function(layer) {
-    this.path = layer + '/queryRelatedRecords';
-    return this;
-  }
+  // no clue why i ever included this.  object's hardcoded 'path' property is appended to featureLayer url in Task.Request automatically.
+  // layer: function(layer) {
+  //   this.path = layer + '/queryRelatedRecords';
+  //   return this;
+  // }
 });
 
-// attach to the L.esri global if we can
+// attach to the L.esri global if available
 if (typeof window !== 'undefined' && window.L && window.L.esri) {
-  Esri.Tasks.QueryRelated = EsriLeafletRelated;
-
-  Esri.Tasks.queryRelated = function(params) {
-    return new EsriLeafletRelated(params);
+  window.L.esri.Tasks.queryRelated = function(featureLayer) {
+    return new EsriLeafletRelated(featureLayer);
   };
 }
