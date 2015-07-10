@@ -72,7 +72,9 @@
   var map = L.map('map').setView([34.05873, -117.20317 ], 14);
   L.esri.basemapLayer('Topographic').addTo(map);
 
-  var fl = L.esri.featureLayer('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0').addTo(map);
+  var fl = L.esri.featureLayer({
+    url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0'
+  }).addTo(map);
 
   // fire a query when users click on a feature
   fl.on("click", queryRelated);

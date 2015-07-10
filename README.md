@@ -56,7 +56,9 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   var map = L.map('map').setView([34.05873397817502, -117.2031784057617], 14);
   L.esri.basemapLayer('Topographic').addTo(map);
 
-  var fl = L.esri.featureLayer('//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0').addTo(map);
+  var fl = L.esri.featureLayer({
+    url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0'
+  }).addTo(map);
 
   //wire up event listener to fire query when users click on individual features
   fl.on("click", queryRelated);
