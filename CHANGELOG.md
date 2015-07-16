@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.0.2]
+
+* nada.  (still getting the hang of pushing up to npm and the cdn)
+
+
 ## [1.0.1]
 
 * moved CDN to [jsdelivr](http://www.jsdelivr.com/#!leaflet.esri.related)

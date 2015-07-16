@@ -120,6 +120,7 @@ module.exports = function(grunt) {
     releaseable: {
       release: {
         options: {
+          build: 'npm run prepublish',
           remote: 'origin',
           mainBranch: 'master',
           dryRun: grunt.option('dryRun') ? grunt.option('dryRun') : false,
