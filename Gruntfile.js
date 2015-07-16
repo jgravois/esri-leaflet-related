@@ -46,7 +46,7 @@ module.exports = function(grunt) {
         src: [
           'src/EsriLeafletRelated.js'
         ],
-        dest: 'dist/esri-leaflet-related.js'
+        dest: 'dist/esri-leaflet-related-src.js'
       }
     },
 
@@ -61,8 +61,8 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/esri-leaflet-related.min.js': [
-            'dist/esri-leaflet-related.js'
+          'dist/esri-leaflet-related.js': [
+            'dist/esri-leaflet-related-src.js'
           ]
         }
       }
