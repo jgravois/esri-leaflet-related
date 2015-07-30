@@ -18,13 +18,17 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <meta charset=utf-8 />
   <title>related table</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <!-- Load Leaflet from CDN-->
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
 
-  <!-- Load Esri Leaflet from CDN -->
-  <script src="//cdn.jsdelivr.net/leaflet.esri/1.0.0/esri-leaflet.js"></script>
-  <script src="//cdn.jsdelivr.net/leaflet.esri.related/1.0.2/esri-leaflet-related.js"></script>
+  <!-- Load Leaflet from CDN-->
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.css" />
+  <script src="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.js"></script>
+
+  <!-- Esri Leaflet -->
+  <script src="http://cdn.jsdelivr.net/leaflet.esri/2.0.0-beta.5/esri-leaflet.js"></script>
+
+  <!-- Esri Leaflet Related -->
+  <script src="http://cdn.jsdelivr.net/leaflet.esri.related/2.0.0-beta.1/esri-leaflet-related.js"></script>
+
   <style>
     body {margin:0;padding:0;}
     #map {
@@ -38,7 +42,7 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
       position: absolute;
       top: 10px;
       right: 10px;
-      z-index: 10;
+      z-index: 1000;
       padding: 1em;
       background: white;
     }
@@ -64,7 +68,7 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   fl.on("click", queryRelated);
 
   function queryRelated(evt) {
-    var query = L.esri.Tasks.queryRelated(fl).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+    var query = L.esri.Related.query(fl).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
       console.log(response.features.length + " related records found.");
     })
   }
@@ -74,19 +78,19 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 </html>
 ```
 
-## L.esri.Tasks.QueryRelated
+## L.esri.Related.Query
 
 ### Constructor
 
-**Extends** [`L.esri.Tasks.Task`](http://esri.github.io/esri-leaflet/api-reference/tasks/task.html)
+**Extends** [`L.esri.Task`](http://esri.github.io/esri-leaflet/api-reference/tasks/task.html)
 
 Constructor | Options | Description
 --- | --- | ---
-`new L.esri.Task.QueryRelated(<FeatureLayer> endpoint)`<br>`L.esri.Task.queryRelated(<FeatureLayer> endpoint)`<br>`new L.esri.Task.QueryRelated(<Object> options)`<br>`L.esri.Task.queryRelated(<Object> options)` | [`<FeatureLayer>`](#endpoint)<br>or<br>[`<Options>`](#options) | Accepts either an `options` object or an instance of [FeatureLayer](http://esri.github.io/esri-leaflet/api-reference/services/feature-layer.html).
+`L.esri.Related.query(<FeatureLayer> endpoint)`<br>`L.esri.Related.query(<FeatureLayer> endpoint)`<br>`new L.esri.Related.Query(<Object> options)`<br>`L.esri.Related.Query(<Object> options)` | [`<FeatureLayer>`](#endpoint)<br>or<br>[`<Options>`](#options) | Accepts either an `options` object or an instance of [FeatureLayer](http://esri.github.io/esri-leaflet/api-reference/services/feature-layer.html).
 
 ### Options
 
-L.esri.Tasks.QueryRelated accepts all L.esri.Tasks.Task options.  When used, the `url` option is required.
+L.esri.Related.Query accepts all L.esri.Task options.  When used, the `url` option is required.
 
 ### Methods
 

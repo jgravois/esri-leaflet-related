@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.0.0-beta.1]
+
+### Breaking
+* Requires the 2.0.0-beta.4 release of Esri Leaflet.
+* Requires the 1.0.0-beta.1 release of Leaflet.
+* Namespaces have changed all exports now sit directly under the `L.esri` namespace. This mean that `L.esri.Tasks.queryRelated` can now be accessed via `L.esri.Related.query`.
+
+
+### Added
+
+* Better build/test/release automation.
+* Support for JSPM in package.json. Now you can `import queryRelated from 'esri-leaflet-related/src/EsriLeafletRelated';` for more compact builds but, be aware of [caveats](http://blog.izs.me/post/44149270867/why-no-directories-lib-in-node-the-less-snarky)
+* Support for browserify in the package.json. Now you can `var queryRelated = require('esri-leaflet-related/src/EsriLeafletRelated');` for more compact builds, but be aware of [caveats](http://blog.izs.me/post/44149270867/why-no-directories-lib-in-node-the-less-snarky)
+
+
 ## [1.0.2]
 
 * nada.  (still getting the hang of pushing up to npm and the cdn)

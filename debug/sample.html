@@ -22,7 +22,7 @@
   <!-- Load Esri Leaflet -->
   <script src="../node_modules/esri-leaflet/dist/esri-leaflet.js"></script>
 
-  <script src="../src/EsriLeafletRelated.js"></script>
+  <script src="../dist/esri-leaflet-related.js"></script>
 
   <style>
     body {margin:0;padding:0;}
@@ -37,7 +37,7 @@
       position: absolute;
       top: 10px;
       right: 10px;
-      z-index: 10;
+      z-index: 1000;
       padding: 1em;
       background: white;
     }
@@ -45,7 +45,7 @@
       position: absolute;
       top: 10px;
       left: 50px;
-      z-index: 10;
+      z-index: 1000;
       padding: 1em;
       background: white;
     }
@@ -80,8 +80,10 @@
   fl.on("click", queryRelated);
 
   function queryRelated(evt) {
-    var query = L.esri.Tasks.queryRelated(fl).objectIds([evt.layer.feature.id]).
-    relationshipId("0").run(function(error, response, raw) {
+    var query = L.esri.Related.query(fl);
+    query.objectIds([evt.layer.feature.id]);
+    query.relationshipId("0");
+    query.run(function(error, response, raw) {
       //pull the attributes out of the geoJson response
       if (response.features.length > 0) {
         var results = [];
