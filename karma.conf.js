@@ -16,8 +16,8 @@ module.exports = function(config) {
       'node_modules/leaflet/dist/leaflet.css',
       'node_modules/leaflet/dist/leaflet.js',
       'node_modules/esri-leaflet/dist/esri-leaflet.js',
-      'spec/**/*Spec.js',
-      'src/EsriLeafletRelated.js'
+      'spec/*Spec.js',
+      'dist/esri-leaflet-related.js'
     ],
 
     // list of files to exclude

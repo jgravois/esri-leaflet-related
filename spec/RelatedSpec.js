@@ -1,4 +1,4 @@
-describe('L.esri.Tasks.QueryRelated', function () {
+describe('L.esri.QueryRelated', function () {
   function createMap(){
     // create container
     var container = document.createElement('div');
@@ -130,7 +130,6 @@ describe('L.esri.Tasks.QueryRelated', function () {
 
   beforeEach(function(){
     server = sinon.fakeServer.create();
-    //service = new L.esri.GP.Services.Geoprocessing({url: gpServiceUrl});
   });
 
   afterEach(function(){
@@ -140,7 +139,7 @@ describe('L.esri.Tasks.QueryRelated', function () {
 
   /* to do */
   it("should be able to do a lot of things", function () {
-    var related = L.esri.Tasks.queryRelated({url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0'});
+    var related = L.esri.Related.query({url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer//0'});
     expect(1).to.be.eq(1);
   });
 
