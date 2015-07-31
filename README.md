@@ -52,24 +52,26 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 <div id="map"></div>
 <div id="info-pane" class="leaflet-bar">
   <label>
-  click on a bikeshare location <br>to see crowdsourced counts!
+  select a feature to query for related records
   </label>
 </div>
 
 <script>
-  var map = L.map('map').setView([34.05873397817502, -117.2031784057617], 14);
+  var map = L.map('map').setView([34.059, -117.203], 14);
   L.esri.basemapLayer('Topographic').addTo(map);
 
   var fl = L.esri.featureLayer({
     url: '//services.arcgis.com/uCXeTVveQzP4IIcx/ArcGIS/rest/services/stationActivity/FeatureServer/0'
   }).addTo(map);
 
-  //wire up event listener to fire query when users click on individual features
+  var query = L.esri.Related.query(fl);
+
+  //wire up event listener to fire query when users click on a feature
   fl.on("click", queryRelated);
 
-  function queryRelated(evt) {
-    var query = L.esri.Related.query(fl).objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
-      console.log(response.features.length + " related records found.");
+  function queryRelated (evt) {
+    query.objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
+      document.getElementById("info-pane").innerHTML += '<br><br>matching rows: ' + response.features.length;
     })
   }
 </script>
