@@ -1,12 +1,20 @@
 # Changelog
 
-## [2.0.0-beta.1]
+## [2.0.0]
+
+* moving out of beta, to full-blown SemVer.
 
 ### Breaking
 * Requires the 2.0.0-beta.4 release of Esri Leaflet.
 * Requires the 1.0.0-beta.1 release of Leaflet.
 * Namespaces have changed all exports now sit directly under the `L.esri` namespace. This mean that `L.esri.Tasks.queryRelated` can now be accessed via `L.esri.Related.query`.
 
+## [2.0.0-beta.1]
+
+### Breaking
+* Requires the 2.0.0-beta.4 release of Esri Leaflet.
+* Requires the 1.0.0-beta.1 release of Leaflet.
+* Namespaces have changed all exports now sit directly under the `L.esri` namespace. This mean that `L.esri.Tasks.queryRelated` can now be accessed via `L.esri.Related.query`.
 
 ### Added
 
@@ -55,6 +63,15 @@ This is expected to be the last (and only) stable release of Esri Leaflet Relate
 * fixed jshinting
 * added debug folder with sample
 
-## [Alpha 1]
+## Alpha 1
 
-* Inital alpha release
+* Initial alpha release
+
+[2.0.0]: https://github.com/jgravois/esri-leaflet-related/compare/v2.0.0-beta.1...v2.0.0-beta.1
+[2.0.0-beta.1]: https://github.com/jgravois/esri-leaflet-related/compare/v2.0.0-beta.1...v1.0.2
+[1.0.2]: https://github.com/jgravois/esri-leaflet-related/compare/v1.0.1...v1.0.2
+[1.0.1]: https://github.com/jgravois/esri-leaflet-related/compare/v1.0.0...v1.0.1
+[1.0.0]: https://github.com/jgravois/esri-leaflet-related/compare/v0.0.1-beta.1...v1.0.0
+[Beta 2]: https://github.com/jgravois/esri-leaflet-gp/compare/v0.0.1-beta.1...v0.0.1-beta.2
+[Beta 1]: https://github.com/jgravois/esri-leaflet-gp/compare/v0.0.1-alpha.3...v0.0.1-beta.1
+[Alpha 2]: https://github.com/jgravois/esri-leaflet-gp/compare/v0.0.1-alpha.2...v0.0.1-alpha.1

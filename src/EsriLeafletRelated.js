@@ -1,4 +1,4 @@
-export var VERSION = '2.0.0-beta.1';
+export var VERSION = '2.0.0';
 
 import { Task, Util } from 'esri-leaflet';
 

@@ -1,7 +1,7 @@
 {
   "name": "esri-leaflet-related",
   "description": "A Leaflet plugin that allows users to query related tables.",
-  "version": "2.0.0-beta.1",
+  "version": "2.0.0",
   "author": "John Gravois <jgravois@esri.com> (http://johngravois.com)",
   "browserify": {
     "transform": [
@@ -22,7 +22,7 @@
     "John Gravois <jgravois@esri.com> (http://johngravois.com)"
   ],
   "dependencies": {
-    "leaflet": "^1.0.0",
+    "leaflet": "^1.0.0-beta.1",
     "esri-leaflet": "^2.0.0-beta.4"
   },
   "devDependencies": {
@@ -57,7 +57,7 @@
     "registry": "npm",
     "format": "es6"
   },
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "main": "src/EsriLeafletRelated.js",
   "readmeFilename": "README.md",
   "repository": {
