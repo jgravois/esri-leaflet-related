@@ -4,14 +4,10 @@
 
 * moving out of beta, to full-blown SemVer.
 
-### Breaking
-* Requires the 2.0.0-beta.4 release of Esri Leaflet.
-* Requires the 1.0.0-beta.1 release of Leaflet.
-* Namespaces have changed all exports now sit directly under the `L.esri` namespace. This mean that `L.esri.Tasks.queryRelated` can now be accessed via `L.esri.Related.query`.
-
 ## [2.0.0-beta.1]
 
 ### Breaking
+
 * Requires the 2.0.0-beta.4 release of Esri Leaflet.
 * Requires the 1.0.0-beta.1 release of Leaflet.
 * Namespaces have changed all exports now sit directly under the `L.esri` namespace. This mean that `L.esri.Tasks.queryRelated` can now be accessed via `L.esri.Related.query`.
@@ -37,27 +33,33 @@
 This is expected to be the last (and only) stable release of Esri Leaflet Related compatible with Leaflet 0.7.3. All future 1.0.X releases will be compatible with Leaflet 0.7.3 and contain only bug fixes. New features will only be added in Esri Leaflet Related 2.0.0 (which will require Leaflet 1.0.0).
 
 ### Changed
-- modified naming convention for built files.  the minified file is now called 'esri-leaflet-related.js' and exploded version is 'esri-leaflet-related-src.js'
+
+* modified naming convention for built files.  the minified file is now called 'esri-leaflet-related.js' and exploded version is 'esri-leaflet-related-src.js'
 
 ## [Beta 2]
 
-**Breaking Changes**
+### Breaking Changes
+
 * QueryRelated now expects either an `options` object or an instance of `L.esri.layer.FeatureLayer` to be passed in the constructor (via d69d928fb70169e90f00c132ec38456fe6b56705)
 
-**Changes**
+### Changes
+
 * added test scaffolding (baby steps) (via c1fd72f3d3a03a8690ee3716451e29175b1ec0a4)
 
 ## [Beta 1]
 
-**Changes**
+### Changes
+
 * grunt autorelease and sourceMap magic added
 
 ## [Alpha 2]
 
-**Breaking Changes**
+### Breaking Changes
+
 * QueryRelated now expects `url` to come from an individual parameter within `options` rather than as a seperate argument.  (see [here](https://github.com/Esri/esri-leaflet/releases/tag/v1.0.0-rc.5) for more info).
 
-**Changes**
+### Changes
+
 * added leaflet and esri-leaflet as actual project dependencies
 * Namespace change
 * fixed jshinting
