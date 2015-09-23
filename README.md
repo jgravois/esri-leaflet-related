@@ -7,7 +7,7 @@ Esri Leaflet Related Records is a small API helper to assist querying related ta
 Esri Leaflet Related Records relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when neccessary. You can find out more about the Esri Leaflet Core on the [Esri Leaflet downloads page](http://esri.github.com/esri-leaflet/downloads).
 
 ## Example
-Note that the latest version of this plugin requires changes introduced in esri-leaflet 1.0.0 Release Candidate 5.
+Note that the latest version of this plugin requires changes introduced in esri-leaflet 2.0.0-beta.6.
 
 Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/index.html) to see it in action.
 
@@ -24,10 +24,10 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <script src="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.js"></script>
 
   <!-- Esri Leaflet -->
-  <script src="http://cdn.jsdelivr.net/leaflet.esri/2.0.0-beta.5/esri-leaflet.js"></script>
+  <script src="http://cdn.jsdelivr.net/leaflet.esri/2.0.0-beta.6/esri-leaflet.js"></script>
 
   <!-- Esri Leaflet Related -->
-  <script src="http://cdn.jsdelivr.net/leaflet.esri.related/2.0.0-beta.1/esri-leaflet-related.js"></script>
+  <script src="http://cdn.jsdelivr.net/leaflet.esri.related/2.0.0/esri-leaflet-related.js"></script>
 
   <style>
     body {margin:0;padding:0;}
