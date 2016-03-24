@@ -1,10 +1,6 @@
 # Esri Leaflet Related Records
 
-Esri Leaflet Related Records is a small API helper to assist querying related tables published in ArcGIS Server or ArcGIS Online
-
-**Currently Esri Leaflet Related Records is in development and should be thought of as a beta or preview**
-
-Esri Leaflet Related Records relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when neccessary. You can find out more about the Esri Leaflet Core on the [Esri Leaflet downloads page](http://esri.github.com/esri-leaflet/downloads).
+Esri Leaflet Related Records is a small API helper to assist querying related tables published in ArcGIS Server or ArcGIS Online. It relies on the minimal Esri Leaflet Core which handles abstraction for requests and authentication when necessary. You can find out more about the Esri Leaflet Core [here](http://esri.github.com/esri-leaflet/downloads).
 
 ## Example
 Note that the latest version of this plugin requires changes introduced in esri-leaflet 2.0.0-beta.6.
@@ -20,11 +16,11 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 
   <!-- Load Leaflet from CDN-->
-  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.css" />
-  <script src="http://cdn.leafletjs.com/leaflet-1.0.0-b1/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-beta.2/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-beta.2/leaflet.js"></script>
 
-  <!-- Esri Leaflet -->
-  <script src="http://cdn.jsdelivr.net/leaflet.esri/2.0.0-beta.6/esri-leaflet.js"></script>
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0-beta.8/esri-leaflet.js"></script>
 
   <!-- Esri Leaflet Related -->
   <script src="http://cdn.jsdelivr.net/leaflet.esri.related/2.0.0/esri-leaflet-related.js"></script>
@@ -80,57 +76,17 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 </html>
 ```
 
-## L.esri.Related.Query
+## API Reference
 
-### Constructor
-
-**Extends** [`L.esri.Task`](http://esri.github.io/esri-leaflet/api-reference/tasks/task.html)
-
-Constructor | Options | Description
---- | --- | ---
-`L.esri.Related.query(<FeatureLayer> endpoint)`<br>`L.esri.Related.query(<FeatureLayer> endpoint)`<br>`new L.esri.Related.Query(<Object> options)`<br>`L.esri.Related.Query(<Object> options)` | [`<FeatureLayer>`](#endpoint)<br>or<br>[`<Options>`](#options) | Accepts either an `options` object or an instance of [FeatureLayer](http://esri.github.io/esri-leaflet/api-reference/services/feature-layer.html).
-
-### Options
-
-L.esri.Related.Query accepts all L.esri.Task options.  When used, the `url` option is required.
-
-### Methods
-
-Method | Returns | Description
---- | --- | ---
-`objectIds(<Array> or <String>)` | `this` | The ObjectId(s) of the features to query for related records.
-`relationshipId(<String>)` | `this` | The Id of the relationship itself.
-`fields(<Array> or <String>)` | `this` | Determines which fields to include in response.
-`returnGeometry(<Boolean>)` | `this` | Include geometry in response features (default is `true`).
-`precision(<Number>)` | `this` | Determines decimal precision of response feature geometries.
-`definitionExpression(<String>)` | `this` | Used to add SQL filter.
-`returnZ(<Boolean>)` | `this` | Include elevation in response feature geometry (default is `true`).
-`returnM(<Boolean>)` | `this` | Include 4dimensional M value in response feature geometry (default is `false`).
-`run(<Function> callback)` | `this` | Calls the corresponding Geoprocessing service, passing the previously supplied input parameters.
-
-#### Result Object
-
-A single result from a call to 'queryRelatedRecords'.
-
-Property | Type | Description
---- | --- | ---
-`features` | [`L.geoJson`] | An array of geoJson features.
-
-#### GP Results
-
-Query Related Records results conform to the following format
-
-```json
-{ features: [L.geoJson] }
-```
+### [`L.esri.Related.Query`](http://esri.github.io/esri-leaflet/api-reference/tasks/query-related.html)
 
 ## Development Instructions
 
-1. [Fork and clone Esri Leaflet Related Records](https://help.github.com/articles/fork-a-repo)
-2. `cd` into the `esri-leaflet-related` folder
-5. Install the dependencies with `npm install`
-5. The example at `/index.html` should work
-6. Make your changes and create a [pull request](https://help.github.com/articles/creating-a-pull-request)
+1. [Fork and clone Esri Leaflet Related](https://help.github.com/articles/fork-a-repo)
+2. `cd` into the `esri-leaflet-related` folder and install the dependencies with `npm install`
+3. Run `npm start` from the command line. This will compile minified source in a brand new `dist` directory, launch a tiny webserver and begin watching the raw source for changes.
+4. The example at `debug/sample.html` *should* 'just work'
+5. Make your changes and create a [pull request](https://help.github.com/articles/creating-a-pull-request)
 
 ## Dependencies
 
@@ -156,12 +112,12 @@ Esri welcomes contributions from anyone and everyone. Please see our [guidelines
 Signup for an [ArcGIS for Developers account](https://developers.arcgis.com/en/plans) or purchase an [ArcGIS Online Organizational Subscription](http://www.arcgis.com/features/plans/pricing.html).
 
 1. Once you have an account you are good to go. Thats it!
-2. If you use this library in a revenue generating application or for goverment use you must upgrade to a paid account. You are not allowed to generate revenue while on a free plan.
+2. If you use this library in a revenue generating application or for government use you must upgrade to a paid account. You are not allowed to generate revenue while on a free plan.
 
 This information is from the [ArcGIS for Developers Terms of Use FAQ](https://developers.arcgis.com/en/terms/faq/)
 
 ## Licensing
-Copyright 2015 Esri
+Copyright 2016 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -177,5 +133,5 @@ limitations under the License.
 
 A copy of the license is available in the repository's [license.txt]( https://raw.github.com/Esri/esri-leaflet-geocoder/master/license.txt) file.
 
-[](Esri Tags: ArcGIS Web Mapping Leaflet Geocoding)
+[](Esri Tags: ArcGIS Web Mapping Leaflet)
 [](Esri Language: JavaScript)
