@@ -25,8 +25,8 @@
     "karma-phantomjs-launcher": "^0.2.0",
     "karma-sourcemap-loader": "^0.3.5",
     "mkdirp": "^0.5.1",
-    "rollup": "^0.25.4",
     "phantomjs": "^1.9.17",
+    "rollup": "^0.25.4",
     "rollup-plugin-json": "^2.0.0",
     "rollup-plugin-node-resolve": "^1.4.0",
     "rollup-plugin-uglify": "^0.1.0",
@@ -41,7 +41,7 @@
   "jspm": {
     "registry": "npm",
     "format": "es6",
-    "main": "src/EsriLeaflet.js"
+    "main": "src/EsriLeafletRelated.js"
   },
   "license": "Apache-2.0",
   "main": "dist/esri-leaflet-debug.js",
