@@ -3,21 +3,6 @@
   "description": "A Leaflet plugin that allows users to query related tables.",
   "version": "2.0.0",
   "author": "John Gravois <jgravois@esri.com> (http://johngravois.com)",
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "whitelist": [
-            "es6.modules"
-          ],
-          "loose": [
-            "es6.modules"
-          ]
-        }
-      ]
-    ]
-  },
   "contributors": [
     "John Gravois <jgravois@esri.com> (http://johngravois.com)"
   ],
