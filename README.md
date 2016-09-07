@@ -14,13 +14,13 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <meta charset=utf-8 />
   <title>related table</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-
+  
   <!-- Load Leaflet from CDN-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-beta.2/leaflet.css" />
-  <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-beta.2/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet.js"></script>
 
   <!-- Load Esri Leaflet from CDN -->
-  <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.0-beta.8/esri-leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.2/esri-leaflet.js"></script>
 
   <!-- Esri Leaflet Related -->
   <script src="http://cdn.jsdelivr.net/leaflet.esri.related/2.0.0/esri-leaflet-related.js"></script>
@@ -34,23 +34,10 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
       right: 0;
       left: 0;
     }
-    #info-pane {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      z-index: 1000;
-      padding: 1em;
-      background: white;
-    }
   </style>
 </head>
 <body>
 <div id="map"></div>
-<div id="info-pane" class="leaflet-bar">
-  <label>
-  select a feature to query for related records
-  </label>
-</div>
 
 <script>
   var map = L.map('map').setView([34.059, -117.203], 14);
@@ -67,9 +54,12 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
 
   function queryRelated (evt) {
     query.objectIds([evt.layer.feature.id]).relationshipId("0").run(function(error, response, raw) {
-      document.getElementById("info-pane").innerHTML += '<br><br>matching rows: ' + response.features.length;
+        var currentFeature = fl.getFeature(evt.layer.feature.id);
+        currentFeature.bindPopup('matching rows: ' + response.features.length);
+        currentFeature.openPopup();
     })
   }
+
 </script>
 
 </body>
