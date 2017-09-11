@@ -16,14 +16,14 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   
   <!-- Load Leaflet from CDN-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet.css" />
-  <script src="https://cdn.jsdelivr.net/leaflet/1.0.0-rc.3/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.0.0-rc.3/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
 
   <!-- Load Esri Leaflet from CDN -->
-  <script src="https://cdn.jsdelivr.net/leaflet.esri/2.0.2/esri-leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/esri-leaflet@2.0.2/dist/esri-leaflet.js"></script>
 
   <!-- Esri Leaflet Related -->
-  <script src="http://cdn.jsdelivr.net/leaflet.esri.related/2.0.0/esri-leaflet-related.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/esri-leaflet-related@2.0.0/dist/esri-leaflet-related.js"></script>
 
   <style>
     body {margin:0;padding:0;}
