@@ -14,13 +14,13 @@ Take a look at [this sample](https://jgravois.github.io/esri-leaflet-related/ind
   <meta charset=utf-8 />
   <title>related table</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  
+
   <!-- Load Leaflet from CDN-->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.0.0-rc.3/dist/leaflet.css" />
-  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.0.0-rc.3/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.css" />
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.2.0/dist/leaflet.js"></script>
 
   <!-- Load Esri Leaflet from CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/esri-leaflet@2.0.2/dist/esri-leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/esri-leaflet@2.1.1/dist/esri-leaflet.js"></script>
 
   <!-- Esri Leaflet Related -->
   <script src="https://cdn.jsdelivr.net/npm/esri-leaflet-related@2.0.0/dist/esri-leaflet-related.js"></script>
@@ -107,7 +107,7 @@ Signup for an [ArcGIS for Developers account](https://developers.arcgis.com/en/p
 This information is from the [ArcGIS for Developers Terms of Use FAQ](https://developers.arcgis.com/en/terms/faq/)
 
 ## Licensing
-Copyright 2016 Esri
+Copyright 2017 Esri
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -122,6 +122,3 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 A copy of the license is available in the repository's [license.txt]( https://raw.github.com/Esri/esri-leaflet-geocoder/master/license.txt) file.
-
-[](Esri Tags: ArcGIS Web Mapping Leaflet)
-[](Esri Language: JavaScript)
