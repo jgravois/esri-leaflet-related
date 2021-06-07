@@ -1,21 +1,22 @@
-export var VERSION = '2.0.0';
-
+/* eslint-disable no-alert, no-var */
 import { Task, Util } from 'esri-leaflet';
+
+export var VERSION = '3.0.0';
 
 export var Query = Task.extend({
   setters: {
-    'offset': 'offset',
-    'limit': 'limit',
-    'outFields': 'fields',
-    'objectIds': 'objectIds',
-    'relationshipId': 'relationshipId',
-    'definitionExpression': 'definitionExpression',
-    'precision': 'geometryPrecision',
-    'featureIds': 'objectIds',
-    'returnGeometry': 'returnGeometry',
-    'returnZ': 'returnZ',
-    'returnM': 'returnM',
-    'token': 'token'
+    offset: 'offset',
+    limit: 'limit',
+    outFields: 'fields',
+    objectIds: 'objectIds',
+    relationshipId: 'relationshipId',
+    definitionExpression: 'definitionExpression',
+    precision: 'geometryPrecision',
+    featureIds: 'objectIds',
+    returnGeometry: 'returnGeometry',
+    returnZ: 'returnZ',
+    returnM: 'returnM',
+    token: 'token'
   },
 
   path: 'queryRelatedRecords',
@@ -50,7 +51,7 @@ export var Query = Task.extend({
     return this.request(function (error, response) {
       // if more than one objectId is specified, we loop through the features and pass a single collection to the utility method which converts to geoJson
       var result = {
-        'features': []
+        features: []
       };
       for (var i = 0; i < response.relatedRecordGroups.length; i++) {
         for (var k = 0; k < response.relatedRecordGroups[i].relatedRecords.length; k++) {
