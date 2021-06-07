@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.0.0]
+
+* upgrade esri-leaflet dependency to 3.x.
+
 ## [2.0.0]
 
 * moving out of beta, to full-blown SemVer.
@@ -69,7 +73,8 @@ This is expected to be the last (and only) stable release of Esri Leaflet Relate
 
 * Initial alpha release
 
-[2.0.0]: https://github.com/jgravois/esri-leaflet-related/compare/v2.0.0-beta.1...v2.0.0-beta.1
+[3.0.0]: https://github.com/jgravois/esri-leaflet-related/compare/v2.0.0...v3.0.0
+[2.0.0]: https://github.com/jgravois/esri-leaflet-related/compare/v2.0.0-beta.1...v2.0.0
 [2.0.0-beta.1]: https://github.com/jgravois/esri-leaflet-related/compare/v2.0.0-beta.1...v1.0.2
 [1.0.2]: https://github.com/jgravois/esri-leaflet-related/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/jgravois/esri-leaflet-related/compare/v1.0.0...v1.0.1

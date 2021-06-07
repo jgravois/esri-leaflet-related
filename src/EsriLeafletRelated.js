@@ -1,7 +1,7 @@
 /* eslint-disable no-alert, no-var */
 import { Task, Util } from 'esri-leaflet';
 
-export var VERSION = '2.0.0';
+export var VERSION = '3.0.0';
 
 export var Query = Task.extend({
   setters: {
